@@ -1,5 +1,7 @@
 = man pages
 
+link:/html/awk.html[awk,window=_blank]
+
 link:/html/asciidoctor.html[Asciidoctor,window=_blank]
 
 link:/html/find.html[find,window=_blank]

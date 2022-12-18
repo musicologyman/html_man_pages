@@ -1,0 +1,587 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta name="generator" content=
+  "HTML Tidy for HTML5 for Apple macOS version 5.8.0">
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content=
+  "width=device-width, initial-scale=1.0">
+  <meta name="generator" content="Asciidoctor 2.0.18">
+  <title>awk</title>
+  <link rel="stylesheet" href=
+  "https://fonts.googleapis.com/css?family=Open+Sans:300,300italic,400,400italic,600,600italic%7CNoto+Serif:400,400italic,700,700italic%7CDroid+Sans+Mono:400,700">
+  <link rel="stylesheet" href="./asciidoctor.css">
+</head>
+<body class="article toc2 toc-left">
+  <div id="header">
+    <h1>awk</h1>
+    <div id="toc" class="toc2">
+      <div id="toctitle">
+        Table of Contents
+      </div>
+      <ul class="sectlevel1">
+        <li>
+          <a href="#_name">NAME</a>
+        </li>
+        <li>
+          <a href="#_synopsis">SYNOPSIS</a>
+        </li>
+        <li>
+          <a href="#_description">DESCRIPTION</a>
+        </li>
+        <li>
+          <a href="#_environment_variables">ENVIRONMENT
+          VARIABLES</a>
+        </li>
+        <li>
+          <a href="#_examples">EXAMPLES</a>
+        </li>
+        <li>
+          <a href="#_see_also">SEE ALSO</a>
+        </li>
+        <li>
+          <a href="#_bugs">BUGS</a>
+        </li>
+      </ul>
+    </div>
+  </div>
+  <div id="content">
+    <div class="sect1">
+      <h2 id="_name">NAME</h2>
+      <div class="sectionbody">
+        <div class="paragraph">
+          <p>awk - pattern-directed scanning and processing
+          language</p>
+        </div>
+      </div>
+    </div>
+    <div class="sect1">
+      <h2 id="_synopsis">SYNOPSIS</h2>
+      <div class="sectionbody">
+        <div class="paragraph">
+          <p><strong>awk</strong> [ <strong>-F</strong> <em>fs</em>
+          ] [ <strong>-v</strong> <em>var=value</em> ] [
+          <em>'prog'</em> | <strong>-f</strong> <em>progfile</em> ]
+          [ <em>file …​</em> ]</p>
+        </div>
+      </div>
+    </div>
+    <div class="sect1">
+      <h2 id="_description">DESCRIPTION</h2>
+      <div class="sectionbody">
+        <div class="paragraph">
+          <p><em>Awk</em> scans each input <em>file</em> for lines
+          that match any of a set of patterns specified literally
+          in <em>prog</em> or in one or more files specified as
+          <strong>-f</strong> <em>progfile</em>. With each pattern
+          there can be an associated action that will be performed
+          when a line of a <em>file</em> matches the pattern. Each
+          line is matched against the pattern portion of every
+          pattern-action statement; the associated action is
+          performed for each matched pattern. The file name
+          <strong>-</strong> means the standard input. Any
+          <em>file</em> of the form <em>var=value</em> is treated
+          as an assignment, not a filename, and is executed at the
+          time it would have been opened if it were a filename. The
+          option <strong>-v</strong> followed by <em>var=value</em>
+          is an assignment to be done before <em>prog</em> is
+          executed; any number of <strong>-v</strong> options may
+          be present. The <strong>-F</strong> <em>fs</em> option
+          defines the input field separator to be the regular
+          expression <em>fs</em>.</p>
+        </div>
+        <div class="paragraph">
+          <p>An input line is normally made up of fields separated
+          by white space, or by the regular expression
+          <strong>FS</strong>. The fields are denoted
+          <strong>$1</strong>, <strong>$2</strong>, …​, while
+          <strong>$0</strong> refers to the entire line. If
+          <strong>FS</strong> is null, the input line is split into
+          one field per character.</p>
+        </div>
+        <div class="paragraph">
+          <p>A pattern-action statement has the form:</p>
+        </div>
+        <div class="quoteblock">
+          <blockquote>
+            <div class="paragraph">
+              <p><em>pattern</em>* \{
+              <strong><em>action</em></strong> } *</p>
+            </div>
+          </blockquote>
+        </div>
+        <div class="paragraph">
+          <p>A missing <strong>\{*_ action _</strong>}* means print
+          the line; a missing pattern always matches.
+          Pattern-action statements are separated by newlines or
+          semicolons.</p>
+        </div>
+        <div class="paragraph">
+          <p>An action is a sequence of statements. A statement can
+          be one of the following:</p>
+        </div>
+        <div class="literalblock">
+          <div class="content">
+            <pre>if( expression ) statement [ else statement ]
+while( expression ) statement
+for( expression ; expression ; expression ) statement
+for( var in array ) statement
+do statement while( expression )
+break
+continue
+{ [ statement ... ] }
+expression      # commonly var = expression
+print [ expression-list ] [ &gt; expression ]
+printf format [ , expression-list ] [ &gt; expression ]
+return [ expression ]
+next    # skip remaining patterns on this input line
+nextfile        # skip rest of this file, open next, start at top
+delete array[ expression ]      # delete an array element
+delete array    # delete all elements of array
+exit [ expression ]     # exit immediately; status is expression</pre>
+          </div>
+        </div>
+        <div class="paragraph">
+          <p>Statements are terminated by semicolons, newlines or
+          right braces. An empty <em>expression-list</em> stands
+          for <strong>$0</strong>. String constants are quoted
+          <code>" "</code>, with the usual C escapes recognized
+          within. Expressions take on string or numeric values as
+          appropriate, and are built using the operators <strong>+
+          - * / % ^</strong> (exponentiation), and concatenation
+          (indicated by white space). The operators <strong>!
+          ++ — += -= *= /= %= ^= &gt; &gt;= &lt; ⇐ == !=
+          ?:</strong> are also available in expressions. Variables
+          may be scalars, array elements (denoted
+          <em>x</em>*<strong class=
+          "*&lt;em&gt;i&lt;/em&gt;*"><em>)</em> or fields.
+          Variables are initialized to the null string. Array
+          subscripts may be any string, not necessarily numeric;
+          this allows for a form of associative memory. Multiple
+          subscripts such as *[i,j,k]</strong> are permitted; the
+          constituents are concatenated, separated by the value of
+          <strong>SUBSEP</strong>.</p>
+        </div>
+        <div class="paragraph">
+          <p>The <strong>print</strong> statement prints its
+          arguments on the standard output (or on a file if
+          <strong>&gt;</strong><em>file</em> or
+          <strong>&gt;&gt;</strong> <em>file</em> is present or on
+          a pipe if <strong>|</strong> <em>cmd</em> is present),
+          separated by the current output field separator, and
+          terminated by the output record separator. <em>file</em>
+          and <em>cmd</em> may be literal names or parenthesized
+          expressions; identical string values in different
+          statements denote the same open file. The
+          <strong>printf</strong> statement formats its expression
+          list according to the <em>format</em> (see
+          <em>printf</em>(3)). The built-in function
+          <strong>close(</strong><em>expr</em><strong>)</strong>
+          closes the file or pipe <em>expr</em>. The built-in
+          function <strong>fflush(<em>expr</em>)</strong> flushes
+          any buffered output for the file or pipe
+          <em>expr</em>.</p>
+        </div>
+        <div class="paragraph">
+          <p>The mathematical functions <strong>atan2</strong>,
+          <strong>cos</strong>, <strong>exp</strong>,
+          <strong>log</strong>, <strong>sin</strong>, and
+          <strong>sqrt</strong> are built in. Other built-in
+          functions:</p>
+        </div>
+        <div class="paragraph">
+          <p>::</p>
+        </div>
+        <div class="dlist">
+          <dl>
+            <dt class="hdlist1"><strong>length</strong></dt>
+            <dd>
+              <p>the length of its argument taken as a string,
+              number of elements in an array for an array argument,
+              or length of <strong>$0</strong> if no argument.</p>
+            </dd>
+            <dt class="hdlist1"><strong>rand</strong></dt>
+            <dd>
+              <p>random number on [0,1).</p>
+            </dd>
+            <dt class="hdlist1"><strong>srand</strong></dt>
+            <dd>
+              <p>sets seed for <strong>rand</strong> and returns
+              the previous seed.</p>
+            </dd>
+            <dt class="hdlist1"><strong>int</strong></dt>
+            <dd>
+              <p>truncates to an integer value.</p>
+            </dd>
+            <dt class="hdlist1">
+            <strong>substr(*<em>s</em></strong>, <strong><em>m</em>
+            [</strong>, <strong><em>n </em>]</strong>)*</dt>
+            <dd>
+              <p>the <em>n</em>-character substring of <em>s</em>
+              that begins at position <em>m</em> counted from 1. If
+              no <em>n</em>, use the rest of the string.</p>
+            </dd>
+            <dt class="hdlist1">
+            <strong>index(*<em>s</em></strong>,<strong>_
+            t_</strong>)*</dt>
+            <dd>
+              <p>the position in <em>s</em> where the string
+              <em>t</em> occurs, or 0 if it does not.</p>
+            </dd>
+            <dt class="hdlist1">
+            <strong>match(*<em>s</em></strong>,<strong>_
+            r_</strong>)*</dt>
+            <dd>
+              <p>the position in <em>s</em> where the regular
+              expression <em>r</em> occurs, or 0 if it does not.
+              The variables <strong>RSTART</strong> and
+              <strong>RLENGTH</strong> are set to the position and
+              length of the matched string.</p>
+            </dd>
+            <dt class="hdlist1"><strong>split(*<em>s</em></strong>,
+            <strong><em>a _[</em></strong><em>,
+            <strong>_fs </strong></em><strong>]</strong>)*</dt>
+            <dd>
+              <p>splits the string <em>s</em> into array elements
+              <em>a</em>*<strong class="1"><em>,</em>
+              <em>a</em></strong>[2]<strong><em>,</em> …​,
+              <em>a</em></strong>[<strong><em>n</em></strong>]<strong><em>,</em>
+              and returns <em>n</em>. The separation is done with
+              the regular expression <em>fs</em> or with the field
+              separator *FS</strong> if <em>fs</em> is not given.
+              An empty string as field separator splits the string
+              into one array element per character.</p>
+            </dd>
+            <dt class="hdlist1"><strong>sub(*<em>r</em></strong>,
+            <strong><em>t _[, _s </em>]</strong>)*</dt>
+            <dd>
+              <p>substitutes <em>t</em> for the first occurrence of
+              the regular expression <em>r</em> in the string
+              <em>s</em>. If <em>s</em> is not given,
+              <strong>$0</strong> is used.</p>
+            </dd>
+            <dt class="hdlist1"><strong>gsub(*<em>r</em></strong>,
+            <strong><em>t _[, _s </em>]</strong>)*</dt>
+            <dd>
+              <p>same as <strong>sub</strong> except that all
+              occurrences of the regular expression are replaced;
+              <strong>sub</strong> and <strong>gsub</strong> return
+              the number of replacements.</p>
+            </dd>
+            <dt class="hdlist1">
+            <strong>sprintf(*<em>fmt</em></strong>,<strong>_
+            expr_</strong>,*_ …​_<strong>)</strong></dt>
+            <dd>
+              <p>the string resulting from formatting <em>expr
+              …​</em> according to the <em>printf</em>(3) format
+              <em>fmt</em>.</p>
+            </dd>
+            <dt class="hdlist1">
+            <strong>system(*<em>cmd</em></strong>)*</dt>
+            <dd>
+              <p>executes <em>cmd</em> and returns its exit status.
+              This will be -1 upon error, <em>cmd</em>'s exit
+              status upon a normal exit, 256 + <em>sig</em> upon
+              death-by-signal, where <em>sig</em> is the number of
+              the murdering signal, or 512 + <em>sig</em> if there
+              was a core dump.</p>
+            </dd>
+            <dt class="hdlist1">
+            <strong>tolower(*<em>str</em></strong>)*</dt>
+            <dd>
+              <p>returns a copy of <em>str</em> with all upper-case
+              characters translated to their corresponding
+              lower-case equivalents.</p>
+            </dd>
+            <dt class="hdlist1">
+            <strong>toupper(*<em>str</em></strong>)*</dt>
+            <dd>
+              <p>returns a copy of <em>str</em> with all lower-case
+              characters translated to their corresponding
+              upper-case equivalents.</p>
+            </dd>
+          </dl>
+        </div>
+        <div class="paragraph">
+          <p>The ``function'' <strong>getline</strong> sets
+          <strong>$0</strong> to the next input record from the
+          current input file; <strong>getline</strong>
+          <strong>&lt;*_ file _ sets *$0</strong> to the next
+          record from <em>file</em>. <strong>getline</strong>
+          <em>x</em> sets variable <em>x</em> instead. Finally,
+          <em>cmd</em>* | getline * pipes the output of
+          <em>cmd</em> into <strong>getline</strong>; each call of
+          <strong>getline</strong> returns the next line of output
+          from <em>cmd</em>. In all cases, <strong>getline</strong>
+          returns 1 for a successful input, 0 for end of file, and
+          -1 for an error.</p>
+        </div>
+        <div class="paragraph">
+          <p>Patterns are arbitrary Boolean combinations (with
+          <strong>! || &amp;&</strong>) of regular expressions and
+          relational expressions. Regular expressions are as
+          defined in <em>re_format</em>(7). Isolated regular
+          expressions in a pattern apply to the entire line.
+          Regular expressions may also occur in relational
+          expressions, using the operators <strong>~</strong> and
+          <strong>!~</strong>. <strong>/*<em>re</em></strong>/* is
+          a constant regular expression; any string (constant or
+          variable) may be used as a regular expression, except in
+          the position of an isolated regular expression in a
+          pattern.</p>
+        </div>
+        <div class="paragraph">
+          <p>A pattern may consist of two patterns separated by a
+          comma; in this case, the action is performed for all
+          lines from an occurrence of the first pattern though an
+          occurrence of the second.</p>
+        </div>
+        <div class="paragraph">
+          <p>A relational expression is one of the following:</p>
+        </div>
+        <div class="quoteblock">
+          <blockquote>
+            <div class="paragraph">
+              <p><em>expression matchop regular-expression</em><br>
+              <em>expression relop expression</em><br>
+              <em>expression</em>* in
+              <strong><em>array-name</em><br>
+              *(*<em>expr</em></strong>,<strong><em>expr,…​</em></strong>)
+              in *<em>array-name</em></p>
+            </div>
+          </blockquote>
+        </div>
+        <div class="paragraph">
+          <p>where a <em>relop</em> is any of the six relational
+          operators in C, and a <em>matchop</em> is either
+          <strong>~</strong> (matches) or <strong>!~</strong> (does
+          not match). A conditional is an arithmetic expression, a
+          relational expression, or a Boolean combination of
+          these.</p>
+        </div>
+        <div class="paragraph">
+          <p>The special patterns <strong>BEGIN</strong> and
+          <strong>END</strong> may be used to capture control
+          before the first input line is read and after the last.
+          <strong>BEGIN</strong> and <strong>END</strong> do not
+          combine with other patterns. They may appear multiple
+          times in a program and execute in the order they are read
+          by <em>awk</em>.</p>
+        </div>
+        <div class="paragraph">
+          <p>Variable names with special meanings:</p>
+        </div>
+        <div class="paragraph">
+          <p>::</p>
+        </div>
+        <div class="dlist">
+          <dl>
+            <dt class="hdlist1"><strong>ARGC</strong></dt>
+            <dd>
+              <p>argument count, assignable.</p>
+            </dd>
+            <dt class="hdlist1"><strong>ARGV</strong></dt>
+            <dd>
+              <p>argument array, assignable; non-null members are
+              taken as filenames.</p>
+            </dd>
+            <dt class="hdlist1"><strong>CONVFMT</strong></dt>
+            <dd>
+              <p>conversion format used when converting numbers
+              (default <strong>%.6g</strong>).</p>
+            </dd>
+            <dt class="hdlist1"><strong>ENVIRON</strong></dt>
+            <dd>
+              <p>array of environment variables; subscripts are
+              names.</p>
+            </dd>
+            <dt class="hdlist1"><strong>FILENAME</strong></dt>
+            <dd>
+              <p>the name of the current input file.</p>
+            </dd>
+            <dt class="hdlist1"><strong>FNR</strong></dt>
+            <dd>
+              <p>ordinal number of the current record in the
+              current file.</p>
+            </dd>
+            <dt class="hdlist1"><strong>FS</strong></dt>
+            <dd>
+              <p>regular expression used to separate fields; also
+              settable by option *-F*<em>fs.</em></p>
+            </dd>
+            <dt class="hdlist1"><strong>NF</strong></dt>
+            <dd>
+              <p>number of fields in the current record.</p>
+            </dd>
+            <dt class="hdlist1"><strong>NR</strong></dt>
+            <dd>
+              <p>ordinal number of the current record.</p>
+            </dd>
+            <dt class="hdlist1"><strong>OFMT</strong></dt>
+            <dd>
+              <p>output format for numbers (default
+              <strong>%.6g</strong>).</p>
+            </dd>
+            <dt class="hdlist1"><strong>OFS</strong></dt>
+            <dd>
+              <p>output field separator (default space).</p>
+            </dd>
+            <dt class="hdlist1"><strong>ORS</strong></dt>
+            <dd>
+              <p>output record separator (default newline).</p>
+            </dd>
+            <dt class="hdlist1"><strong>RLENGTH</strong></dt>
+            <dd>
+              <p>the length of a string matched by
+              <strong>match</strong>.</p>
+            </dd>
+            <dt class="hdlist1"><strong>RS</strong></dt>
+            <dd>
+              <p>input record separator (default newline). If
+              empty, blank lines separate records. If more than one
+              character long, <strong>RS</strong> is treated as a
+              regular expression, and records are separated by text
+              matching the expression.</p>
+            </dd>
+            <dt class="hdlist1"><strong>RSTART</strong></dt>
+            <dd>
+              <p>the start position of a string matched by
+              <strong>match</strong>.</p>
+            </dd>
+            <dt class="hdlist1"><strong>SUBSEP</strong></dt>
+            <dd>
+              <p>separates multiple subscripts (default 034).</p>
+            </dd>
+          </dl>
+        </div>
+        <div class="paragraph">
+          <p>Functions may be defined (at the position of a
+          pattern-action statement) thus:</p>
+        </div>
+        <div class="quoteblock">
+          <blockquote>
+            <div class="paragraph">
+              <p><strong>function foo(a, b, c) \{ …​; return x
+              }</strong></p>
+            </div>
+          </blockquote>
+        </div>
+        <div class="paragraph">
+          <p>Parameters are passed by value if scalar and by
+          reference if array name; functions may be called
+          recursively. Parameters are local to the function; all
+          other variables are global. Thus local variables may be
+          created by providing excess parameters in the function
+          definition.</p>
+        </div>
+      </div>
+    </div>
+    <div class="sect1">
+      <h2 id="_environment_variables">ENVIRONMENT VARIABLES</h2>
+      <div class="sectionbody">
+        <div class="paragraph">
+          <p>If <strong>POSIXLY_CORRECT</strong> is set in the
+          environment, then <em>awk</em> follows the POSIX rules
+          for <strong>sub</strong> and <strong>gsub</strong> with
+          respect to consecutive backslashes and ampersands.</p>
+        </div>
+      </div>
+    </div>
+    <div class="sect1">
+      <h2 id="_examples">EXAMPLES</h2>
+      <div class="sectionbody">
+        <div class="literalblock">
+          <div class="content">
+            <pre>length($0) &gt; 72</pre>
+          </div>
+        </div>
+        <div class="paragraph">
+          <p>Print lines longer than 72 characters.</p>
+        </div>
+        <div class="literalblock">
+          <div class="content">
+            <pre>{ print $2, $1 }</pre>
+          </div>
+        </div>
+        <div class="paragraph">
+          <p>Print first two fields in opposite order.</p>
+        </div>
+        <div class="literalblock">
+          <div class="content">
+            <pre>BEGIN { FS = ",[ \t]*|[ \t]+" }
+      { print $2, $1 }</pre>
+          </div>
+        </div>
+        <div class="quoteblock">
+          <blockquote>
+            <div class="paragraph">
+              <p>Same, with input fields separated by comma and/or
+              spaces and tabs.</p>
+            </div>
+          </blockquote>
+        </div>
+        <div class="literalblock">
+          <div class="content">
+            <pre>   { s += $1 }
+END     { print "sum is", s, " average is", s/NR }</pre>
+          </div>
+        </div>
+        <div class="quoteblock">
+          <blockquote>
+            <div class="paragraph">
+              <p>Add up first column, print sum and average.</p>
+            </div>
+          </blockquote>
+        </div>
+        <div class="literalblock">
+          <div class="content">
+            <pre>/start/, /stop/</pre>
+          </div>
+        </div>
+        <div class="paragraph">
+          <p>Print all lines between start/stop pairs.</p>
+        </div>
+        <div class="literalblock">
+          <div class="content">
+            <pre>BEGIN      {       # Simulate echo(1)
+        for (i = 1; i &lt; ARGC; i++) printf "%s ", ARGV[i]
+        printf "\n"
+        exit }</pre>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="sect1">
+      <h2 id="_see_also">SEE ALSO</h2>
+      <div class="sectionbody">
+        <div class="paragraph">
+          <p><em>grep</em>(1), <em>lex</em>(1), <em>sed</em>(1)<br>
+          A. V. Aho, B. W. Kernighan, P. J. Weinberger, <em>The AWK
+          Programming Language</em>, Addison-Wesley, 1988. ISBN
+          0-201-07981-X.</p>
+        </div>
+      </div>
+    </div>
+    <div class="sect1">
+      <h2 id="_bugs">BUGS</h2>
+      <div class="sectionbody">
+        <div class="paragraph">
+          <p>There are no explicit conversions between numbers and
+          strings. To force an expression to be treated as a number
+          add 0 to it; to force it to be treated as a string
+          concatenate <code>""</code> to it.</p>
+        </div>
+        <div class="paragraph">
+          <p>The scope rules for variables in functions are a
+          botch; the syntax is worse.</p>
+        </div>
+        <div class="paragraph">
+          <p>Only eight-bit characters sets are handled
+          correctly.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</body>
+</html>

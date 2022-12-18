@@ -1,0 +1,305 @@
+= awk
+:toc: left
+:nofooter:
+
+== NAME
+
+awk - pattern-directed scanning and processing language
+
+== SYNOPSIS
+
+*awk* [ *-F* _fs_ ] [ *-v* _var=value_ ] [ _'prog'_ | *-f* _progfile_ ]
+[ _file ..._ ]
+
+== DESCRIPTION
+
+_Awk_ scans each input _file_ for lines that match any of a set of
+patterns specified literally in _prog_ or in one or more files specified
+as *-f* _progfile_. With each pattern there can be an associated action
+that will be performed when a line of a _file_ matches the pattern. Each
+line is matched against the pattern portion of every pattern-action
+statement; the associated action is performed for each matched pattern.
+The file name *-* means the standard input. Any _file_ of the form
+_var=value_ is treated as an assignment, not a filename, and is executed
+at the time it would have been opened if it were a filename. The option
+*-v* followed by _var=value_ is an assignment to be done before _prog_
+is executed; any number of *-v* options may be present. The *-F* _fs_
+option defines the input field separator to be the regular expression
+_fs_.
+
+An input line is normally made up of fields separated by white space, or
+by the regular expression *FS*. The fields are denoted *$1*, *$2*, ...,
+while *$0* refers to the entire line. If *FS* is null, the input line is
+split into one field per character.
+
+A pattern-action statement has the form:
+
+____
+_pattern_* \{ *_action_* } *
+____
+
+A missing *\{*_ action _*}* means print the line; a missing pattern
+always matches. Pattern-action statements are separated by newlines or
+semicolons.
+
+An action is a sequence of statements. A statement can be one of the
+following:
+
+....
+if( expression ) statement [ else statement ]
+while( expression ) statement
+for( expression ; expression ; expression ) statement
+for( var in array ) statement
+do statement while( expression )
+break
+continue
+{ [ statement ... ] }
+expression	# commonly var = expression
+print [ expression-list ] [ > expression ]
+printf format [ , expression-list ] [ > expression ]
+return [ expression ]
+next	# skip remaining patterns on this input line
+nextfile	# skip rest of this file, open next, start at top
+delete array[ expression ]	# delete an array element
+delete array	# delete all elements of array
+exit [ expression ]	# exit immediately; status is expression
+....
+
+Statements are terminated by semicolons, newlines or right braces. An
+empty _expression-list_ stands for *$0*. String constants are quoted
+`" "`, with the usual C escapes recognized within. Expressions take on
+string or numeric values as appropriate, and are built using the
+operators *+ - * / % ^* (exponentiation), and concatenation (indicated
+by white space). The operators *! ++ -- += -= *= /= %= ^= > >= < <= ==
+!= ?:* are also available in expressions. Variables may be scalars,
+array elements (denoted _x_*[*_i_*]*_)_ or fields. Variables are
+initialized to the null string. Array subscripts may be any string, not
+necessarily numeric; this allows for a form of associative memory.
+Multiple subscripts such as *[i,j,k]* are permitted; the constituents
+are concatenated, separated by the value of *SUBSEP*.
+
+The *print* statement prints its arguments on the standard output (or on
+a file if *>*_ file _ or *>>*_ file _ is present or on a pipe if *|*_
+cmd _ is present), separated by the current output field separator, and
+terminated by the output record separator. _file_ and _cmd_ may be
+literal names or parenthesized expressions; identical string values in
+different statements denote the same open file. The *printf* statement
+formats its expression list according to the _format_ (see _printf_(3)).
+The built-in function *close(*_expr_*)* closes the file or pipe _expr_.
+The built-in function *fflush(*_expr_*)* flushes any buffered output for
+the file or pipe _expr_.
+
+The mathematical functions *atan2*, *cos*, *exp*, *log*, *sin*, and
+*sqrt* are built in. Other built-in functions:
+
+::
+
+*length*::
+  the length of its argument taken as a string, number of elements in an
+  array for an array argument, or length of *$0* if no argument.
+*rand*::
+  random number on [0,1).
+*srand*::
+  sets seed for *rand* and returns the previous seed.
+*int*::
+  truncates to an integer value.
+*substr(*_s_*, *_m_ [*, *_n _]*)*::
+  the _n_-character substring of _s_ that begins at position _m_ counted
+  from 1. If no _n_, use the rest of the string.
+*index(*_s_*,*_ t_*)*::
+  the position in _s_ where the string _t_ occurs, or 0 if it does not.
+*match(*_s_*,*_ r_*)*::
+  the position in _s_ where the regular expression _r_ occurs, or 0 if
+  it does not. The variables *RSTART* and *RLENGTH* are set to the
+  position and length of the matched string.
+*split(*_s_*, *_a _[*, *_fs _]*)*::
+  splits the string _s_ into array elements _a_*[1]*_,_ _a_*[2]*_,_ ...,
+  _a_*[*_n_*]*_,_ and returns _n_. The separation is done with the
+  regular expression _fs_ or with the field separator *FS* if _fs_ is
+  not given. An empty string as field separator splits the string into
+  one array element per character.
+*sub(*_r_*, *_t _[, _s _]*)*::
+  substitutes _t_ for the first occurrence of the regular expression _r_
+  in the string _s_. If _s_ is not given, *$0* is used.
+*gsub(*_r_*, *_t _[, _s _]*)*::
+  same as *sub* except that all occurrences of the regular expression
+  are replaced; *sub* and *gsub* return the number of replacements.
+*sprintf(*_fmt_*,*_ expr_*,*_ ..._**)**::
+  the string resulting from formatting _expr ..._ according to the
+  _printf_(3) format _fmt_.
+*system(*_cmd_*)*::
+  executes _cmd_ and returns its exit status. This will be -1 upon
+  error, _cmd_'s exit status upon a normal exit, 256 + _sig_ upon
+  death-by-signal, where _sig_ is the number of the murdering signal, or
+  512 + _sig_ if there was a core dump.
+*tolower(*_str_*)*::
+  returns a copy of _str_ with all upper-case characters translated to
+  their corresponding lower-case equivalents.
+*toupper(*_str_*)*::
+  returns a copy of _str_ with all lower-case characters translated to
+  their corresponding upper-case equivalents.
+
+The ``function'' *getline* sets *$0* to the next input record from the
+current input file; *getline* *<*_ file _ sets *$0* to the next record
+from _file_. *getline* _x_ sets variable _x_ instead. Finally, _cmd_* |
+getline * pipes the output of _cmd_ into *getline*; each call of
+*getline* returns the next line of output from _cmd_. In all cases,
+*getline* returns 1 for a successful input, 0 for end of file, and -1
+for an error.
+
+Patterns are arbitrary Boolean combinations (with *! || &&*) of regular
+expressions and relational expressions. Regular expressions are as
+defined in _re_format_(7). Isolated regular expressions in a pattern
+apply to the entire line. Regular expressions may also occur in
+relational expressions, using the operators *~* and *!~*. */*_re_*/* is
+a constant regular expression; any string (constant or variable) may be
+used as a regular expression, except in the position of an isolated
+regular expression in a pattern.
+
+A pattern may consist of two patterns separated by a comma; in this
+case, the action is performed for all lines from an occurrence of the
+first pattern though an occurrence of the second.
+
+A relational expression is one of the following:
+
+____
+_expression matchop regular-expression_ +
+_expression relop expression_ +
+_expression_* in *_array-name_ +
+*(*_expr_*,*_expr,..._*) in *_array-name_
+____
+
+where a _relop_ is any of the six relational operators in C, and a
+_matchop_ is either *~* (matches) or *!~* (does not match). A
+conditional is an arithmetic expression, a relational expression, or a
+Boolean combination of these.
+
+The special patterns *BEGIN* and *END* may be used to capture control
+before the first input line is read and after the last. *BEGIN* and
+*END* do not combine with other patterns. They may appear multiple times
+in a program and execute in the order they are read by _awk_.
+
+Variable names with special meanings:
+
+::
+
+*ARGC*::
+  argument count, assignable.
+*ARGV*::
+  argument array, assignable; non-null members are taken as filenames.
+*CONVFMT*::
+  conversion format used when converting numbers (default *%.6g*).
+*ENVIRON*::
+  array of environment variables; subscripts are names.
+*FILENAME*::
+  the name of the current input file.
+*FNR*::
+  ordinal number of the current record in the current file.
+*FS*::
+  regular expression used to separate fields; also settable by option
+  *-F*_fs._
+*NF*::
+  number of fields in the current record.
+*NR*::
+  ordinal number of the current record.
+*OFMT*::
+  output format for numbers (default *%.6g*).
+*OFS*::
+  output field separator (default space).
+*ORS*::
+  output record separator (default newline).
+*RLENGTH*::
+  the length of a string matched by *match*.
+*RS*::
+  input record separator (default newline). If empty, blank lines
+  separate records. If more than one character long, *RS* is treated as
+  a regular expression, and records are separated by text matching the
+  expression.
+*RSTART*::
+  the start position of a string matched by *match*.
+*SUBSEP*::
+  separates multiple subscripts (default 034).
+
+Functions may be defined (at the position of a pattern-action statement)
+thus:
+
+____
+*function foo(a, b, c) \{ ...; return x }*
+____
+
+Parameters are passed by value if scalar and by reference if array name;
+functions may be called recursively. Parameters are local to the
+function; all other variables are global. Thus local variables may be
+created by providing excess parameters in the function definition.
+
+== ENVIRONMENT VARIABLES
+
+If *POSIXLY_CORRECT* is set in the environment, then _awk_ follows the
+POSIX rules for *sub* and *gsub* with respect to consecutive backslashes
+and ampersands.
+
+== EXAMPLES
+
+....
+length($0) > 72
+
+....
+
+Print lines longer than 72 characters.
+
+....
+{ print $2, $1 }
+
+....
+
+Print first two fields in opposite order.
+
+....
+BEGIN { FS = ",[ \t]*|[ \t]+" }
+      { print $2, $1 }
+
+....
+
+____
+Same, with input fields separated by comma and/or spaces and tabs.
+____
+
+....
+	{ s += $1 }
+END	{ print "sum is", s, " average is", s/NR }
+....
+
+____
+Add up first column, print sum and average.
+____
+
+....
+/start/, /stop/
+
+....
+
+Print all lines between start/stop pairs.
+
+....
+BEGIN	{	# Simulate echo(1)
+	for (i = 1; i < ARGC; i++) printf "%s ", ARGV[i]
+	printf "\n"
+	exit }
+....
+
+== SEE ALSO
+
+_grep_(1), _lex_(1), _sed_(1) +
+A. V. Aho, B. W. Kernighan, P. J. Weinberger, _The AWK Programming
+Language_, Addison-Wesley, 1988. ISBN 0-201-07981-X.
+
+== BUGS
+
+There are no explicit conversions between numbers and strings. To force
+an expression to be treated as a number add 0 to it; to force it to be
+treated as a string concatenate `""` to it.
+
+The scope rules for variables in functions are a botch; the syntax is
+worse.
+
+Only eight-bit characters sets are handled correctly.
