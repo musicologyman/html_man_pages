@@ -1,0 +1,330 @@
+<!-- Creator     : groff version 1.19.2 -->
+<!-- CreationDate: Tue Dec 13 11:37:30 2022 -->
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN"
+"http://www.w3.org/TR/html4/loose.dtd">
+<html>
+<head>
+  <meta name="generator" content=
+  "HTML Tidy for HTML5 for Apple macOS version 5.8.0">
+  <meta name="generator" content="groff -Thtml, see www.gnu.org">
+  <meta http-equiv="Content-Type" content=
+  "text/html; charset=utf-8">
+  <meta name="Content-Style" content="text/css">
+  <style type="text/css">
+       p     { margin-top: 0; margin-bottom: 0; }
+       pre   { margin-top: 0; margin-bottom: 0; }
+       table { margin-top: 0; margin-bottom: 0; }
+  </style>
+  <title></title>
+</head>
+<body>
+  <hr>
+  <p valign="top">man2html − convert UNIX nroff(1) manual pages to
+  HTML format</p>
+  <table width="100%" border="0" rules="none" frame="void"
+  cellspacing="0" cellpadding="0">
+    <tr valign="top" align="left">
+      <td width="28%">
+        <p valign="top"><b>man2html</b></p>
+      </td>
+      <td width="72%">
+        <p valign="top">[<b>-bare</b>] [<b>-belem</b> <i>name</i>]
+        [<b>-botm</b> <i>lines</i>] [<b>-cgiurl</b> <i>string</i>]
+        [<b>-cgiurlexp</b> <i>expr</i>] [<b>-compress</b>]
+        [<b>-headmap</b> <i>mapfile</i>] [<b>-help</b>] [<b>-k</b>]
+        [<b>-leftm</b> <i>chars</i>] [<b>-nodepage</b>]
+        [<b>-noheads</b>] [<b>-pgsize</b> <i>lines</i>]
+        [<b>-seealso</b>] [<b>-solaris</b>] [<b>-sun</b>]
+        [<b>-title</b> <i>string</i>] [<b>-topm</b> <i>lines</i>]
+        [<b>-uelem</b> <i>name</i>]</p>
+      </td>
+    </tr>
+  </table>
+  <p style="margin-top: 1em" valign="top">Typical Usage:</p>
+  <table width="100%" border="0" rules="none" frame="void"
+  cellspacing="0" cellpadding="0">
+    <tr valign="top" align="left">
+      <td width="28%">
+        <p valign="top"><b>man2html</b></p>
+      </td>
+      <td width="72%">
+        <p valign="top">[<b>-options</b>]</p>
+        <p valign="top">[<b>-options</b>] The filter reads
+        formatted nroff text from standard input and writes a
+        <small>HTML</small> document to standard output The
+        formatted nroff output is surrounded with tags with the
+        following exceptions/additions:</p>
+        <table width="100%" border="0" rules="none" frame="void"
+        cellspacing="0" cellpadding="0"></table>
+        <p valign="top">• Section heads are wrapped in
+        <small>HTML</small> tags. See the section below for
+        additional information. The option can be used to disable
+        this feature. • Bold words designated by a
+        "&lt;char&gt;&lt;bs&gt;&lt;char&gt;" sequences are wrapped
+        in tags (or the element specified via the option). •
+        Underlined words designated by a "_&lt;bs&gt;&lt;char&gt;"
+        sequences are wrapped in tags (or the element specified via
+        the option). This option will eliminate <small>HTML</small>
+        and tags from the output. This is useful when you wish to
+        incorporate the output into another <small>HTML</small>
+        document. Use as the name of the element to wrap
+        overstriken characters. The default is <b>B</b>. The
+        argument specifies the number of lines representing the
+        bottom margin of the formatted nroff input. The line count
+        includes any running footers. The default value is 7. The
+        argument specifies a template <small>URL</small> for
+        creating links to other manpages. See the section below for
+        additional information. The argument specifies a Perl
+        expression evaluting to a <small>URL</small> for creating
+        links to other manpages. See the section below for
+        additional information. Compress consecutive blank lines
+        into a single line. The argument is read to determine which
+        <small>HTML</small> header tags are to be used for various
+        section heading in the manpage. See the section below for
+        information on the format of the map file. Print out a
+        short usage message and then exit immediately. Process
+        input resulting from a manpage keyword search See the
+        section below for additional information. The argument
+        specifies the width of the number of characters making up
+        the left margin of the formatted nroff input. The default
+        value is 0. By default, merges multi-page formatted nroff
+        into a single page. This option may be used to disable
+        depagination, causing running headers and footers in the
+        formatted nroff input to be carried over into the
+        <small>HTML</small> output. By default, wraps section heads
+        in <small>HTML</small> header tags. See the section below
+        for additional information. This option may be specified to
+        disabled this feature. The argument specifies the number of
+        lines making up the page size (length) of the formatted
+        nroff input. The default value is 66. If the option has
+        been specified, then this option restricts the creation of
+        links to other manual pages to the section only. If the
+        option has been specified, then this option modifies its
+        operation to process the alternate manual page keyword
+        search format produced by the utility on systems running
+        See the section below for additional information. Do not
+        require a section head to have bold overstriking in the
+        formatted nroff input. The option is called because it was
+        on a Sun workstation that section heads in manpages were
+        found to not be overstruck. By default, does not generate a
+        <small>HTML</small> title This option sets the title of the
+        <small>HTML</small> output to the specified The argument
+        specifies number number of lines representing the top
+        margin of the formatted nroff input. The line count
+        includes any running headers. The default value is 7. Use
+        as the name of the element to wrap underscored characters.
+        The default is <b>I</b>. The option may be used to
+        customize which <small>HTML</small> header tags, are used
+        in manpage section headings. Normally, treats lines that
+        are flush to the left margin and contain overstriking
+        (overstrike check is canceled with the option), as section
+        heads. However, you can augment/override what
+        <small>HTML</small> header tags are used for any given
+        section head. In order to write a section head map file,
+        you will need to know about associative arrays. You do not
+        need to be an expert in to write a map file, however,
+        having knowledge of allows you to be more clever. To add to
+        the default mapping defined by your map file will contain
+        lines with the following syntax:</p>
+        <p style="margin-top: 1em" valign="top">where is the text
+        of the manpage section head. For example: or is the
+        <small>HTML</small> header tag to wrap the section head in.
+        Legal values are: To override the default mapping with your
+        own, then your map file will have the following syntax:</p>
+        <p style="margin-top: 1em" valign="top"><b>%SectionHead =
+        (<br>
+        ’&lt;section head text&gt;’, ’&lt;html header tag&gt;’,<br>
+        ’&lt;section head text&gt;’, ’&lt;html header tag&gt;’,<br>
+        # ... More section head/tag pairs<br>
+        ’&lt;section head text&gt;’, ’&lt;html header tag&gt;’,<br>
+        );</b><br>
+        As of this writing, this is the default map used by</p>
+        <pre style="margin-top: 1em" valign="top">%SectionHead = (
+<small>    ’\S.*OPTIONS.*’             =&gt; ’&lt;H2&gt;’,
+    ’AUTHORS?’                  =&gt; ’&lt;H2&gt;’,
+    ’BUGS’                      =&gt; ’&lt;H2&gt;’,
+    ’COMPATIBILITY’             =&gt; ’&lt;H2&gt;’,
+    ’DEPENDENCIES’              =&gt; ’&lt;H2&gt;’,
+    ’DESCRIPTION’               =&gt; ’&lt;H2&gt;’,
+    ’DIAGNOSTICS’               =&gt; ’&lt;H2&gt;’,
+    ’ENVIRONMENT’               =&gt; ’&lt;H2&gt;’,
+    ’ERRORS’                    =&gt; ’&lt;H2&gt;’,
+    ’EXAMPLES’                  =&gt; ’&lt;H2&gt;’,
+    ’EXTERNAL INFLUENCES’       =&gt; ’&lt;H2&gt;’,
+    ’FILES’                     =&gt; ’&lt;H2&gt;’,
+    ’LIMITATIONS’               =&gt; ’&lt;H2&gt;’,
+    ’NAME’                      =&gt; ’&lt;H2&gt;’,
+    ’NOTES?’                    =&gt; ’&lt;H2&gt;’,
+    ’OPTIONS’                   =&gt; ’&lt;H2&gt;’,
+    ’REFERENCES’                =&gt; ’&lt;H2&gt;’,
+    ’RETURN VALUE’              =&gt; ’&lt;H2&gt;’,
+    ’SECTION.*:’                =&gt; ’&lt;H2&gt;’,
+    ’SEE ALSO’                  =&gt; ’&lt;H2&gt;’,
+    ’STANDARDS CONFORMANCE’     =&gt; ’&lt;H2&gt;’,
+    ’STYLE CONVENTION’          =&gt; ’&lt;H2&gt;’,
+    ’SYNOPSIS’                  =&gt; ’&lt;H2&gt;’,
+    ’SYNTAX’                    =&gt; ’&lt;H2&gt;’,
+    ’WARNINGS’                  =&gt; ’&lt;H2&gt;’,
+    ’\s+Section.*:’             =&gt; ’&lt;H3&gt;’,
+</small>);
+$HeadFallback = ’<small>&lt;H2&gt;</small>’;  # Fallback tag if above is not found.</pre>
+        <p valign="top">Check the source code of for the latest
+        default mapping. You can reassign the variable to a
+        different value if you choose. This value is used as the
+        header tag of a section head if no matches are found in the
+        <b>%SectionHead</b> map. You may have noticed unusual
+        characters in the default map file, like "\s" or "*". The
+        utility actual treats the as a regular expression. If you
+        are comfortable with regular expressions, then you have
+        their full power to use in your map file. The utility
+        already anchors the regular expression to the beginning of
+        the line with left margin spacing specified by the option.
+        Therefore, do not use the ‘^’ character to anchor your
+        regular expression to the beginning. However, you may end
+        your expression with a ‘<b>$</b>’ to anchor it to the end
+        of the line. Since the is actually a regular expression,
+        you will have to be careful of special characters if you
+        want them to be treated literally. Any of the characters
+        should be escaped by prefixing them by the ‘<b>\</b>’
+        character if you want to treat them "as is". One should use
+        single quotes instead of double quotes to delimit This will
+        preserve any ‘<b>\</b>’ characters for character escaping
+        or when the ‘<b>\</b>’ is used for special character
+        matching sequences (e.g., <b>\s</b>, <b>\w</b>, <b>\S</b>).
+        Comments can be inserted in the map file by using the
+        ’<b>#</b>’ character. Anything after, and including, the
+        ’<b>#</b>’ character is ignored, up to the end of line. You
+        might be thinking that the above is quite-a-bit-of-stuff
+        just for doing manpage section heads. However, you will be
+        surprised how much better the <small>HTML</small> output
+        looks with header tags, even though, everything else is in
+        a tag. The utility allows the ability to link to other
+        manpage references. If the option is specified, will create
+        anchors that link to other manpages. The <small>URL</small>
+        entered with the option is actually a template that
+        determines the actual <small>URL</small> used to link to
+        other manpages. The following variables are defined during
+        run time that may be used in the template string:</p>
+        <p style="margin-top: 1em" valign="top">The title of the
+        manual page referenced. The section number of the manual
+        page referenced. The subsection of the manual page
+        referenced. Any other text in the template is preserved "as
+        is". The utility evaluates the template string as a string
+        expression. Therefore, one might need to surround the
+        variable names with ’<b>{}</b>’ (e.g., so that properly
+        recognizes the variable. If a <small>CGI</small> program
+        calling is actually a shell script or a program, make sure
+        to properly escape the ’<b>$</b>’ character in the
+        <small>URL</small> template to avoid variable interpolation
+        by the <small>CGI</small> program. Normally, the
+        <small>URL</small> calls a <small>CGI</small> program
+        (hence the option name), but the <small>URL</small> can
+        easily link to statically converted documents. The
+        following template string is specified to call a
+        <small>CGI</small> program to retrieve the appropriate
+        manpage linked to:<br>
+        If the manpage is referenced in the section, the above
+        template will translate to the following <small>URL</small>
+        : The actual <small>HTML</small> markup will look like the
+        following:
+        <b>&lt;A&nbsp;HREF="/cgi-bin/man.cgi?section=1&amp;topic=ls"&gt;ls(1)&lt;/A&gt;</b>
+        The following template string is specified to retrieve
+        pre-converted manpages: If the manpage is referenced, the
+        above template will translate to the following
+        <small>URL</small> : The actual <small>HTML</small> markup
+        will look like the following: <b>&lt;A
+        HREF="http://foo.org/man1/mount.1M.html"&gt;mount(1M)&lt;/A&gt;</b>
+        The option is a more general form of the option. allows one
+        to specify a general Perl expression. For example:
+        <b>$title=~/^db_/i?"$title.html":"/cgi-bin/man?$title+$section"</b>
+        A can be expressed as follows with <b>-cgiurlexp</b>:
+        <b>return "</b><i>string</i><b>"</b> The utility has the
+        ability to process keyword search output generated by the
+        <b>man&nbsp;-k</b> or <b>apropos</b> commands, through the
+        use of the option. The utility will generate an
+        <small>HTML</small> document of the keyword search input
+        having the following format: • All manpage references are
+        listed by section. • Within each section listing, the
+        manpage references are sorted alphabetically
+        (case-sensitive) in a tag. The manpage references are
+        listed in the section, and the summary text is listed in
+        the section. • Each manpage reference listed is a hyperlink
+        to the actual manpage as specified by the option. This
+        ability to process keyword searches gives nice added
+        functionality to a <small>WWW</small> forms interface to
+        Even if you have statically converted manpages to
+        <small>HTML</small> via another man-&gt;
+        <small>HTML</small> program, you can use and
+        "<b>man&nbsp;-k</b>" to provide keyword search capabilities
+        easily for your <small>HTML</small> manpages.
+        Unfortunately, there is no standard controlling the format
+        of keyword search results. The utility tries it best to
+        handle all the variations. However, the keyword search
+        results generated by the operating system is different
+        enough from other systems that a special command-line
+        option must be specified to handle its output.</p>
+        <pre valign=
+        "top">strcpy        strcpy (9f)  - copy a string from one location to another.
+strcpy        string (3c)  - string operations
+strncpy       strcpy (9f)  - copy a string from one location to another.
+strncpy       string (3c)  - string operations</pre>
+        <p valign="top">If keyword search results on your systems
+        appear in the following format: then you need to specify
+        the option in addition to the option. Different systems
+        format manpages differently. Here is a list of recommended
+        command-line options for certain systems: <b><br>
+        Convex</b>: &lt;defaults should be okay&gt;</p>
+        <table width="100%" border="0" rules="none" frame="void"
+        cellspacing="0" cellpadding="0">
+          <tr valign="top" align="left">
+            <td width="15%">
+              <p valign="top"><b>HP</b>:</p>
+            </td>
+            <td width="85%">
+              <p valign="top"><b>-leftm 1 -topm 8</b></p>
+            </td>
+          </tr>
+          <tr valign="top" align="left">
+            <td width="15%">
+              <p valign="top"><b>Sun</b>:</p>
+            </td>
+            <td width="85%">
+              <p valign="top"><b>-sun</b> (and <b>-solaris</b> when
+              using <b>-k</b>)</p>
+            </td>
+          </tr>
+        </table>
+        <p valign="top">Some line spacing gets lost in the
+        formatted nroff since the spacing would occur in the middle
+        of a page break. This can cause text to be merged that
+        shouldn’t be merged when depaginates the text. To avoid
+        this problem, keeps track of the margin indent right before
+        and after a page break. If the margin width of the line
+        after the page break is less than the line before the page
+        break, then inserts a blank line in the <small>HTML</small>
+        output. A manpage cross-reference is detected by the
+        following pseudo expression: <b>[A-z.-+_]+([0-9][A-z]?)</b>
+        The utility only recognizes lines with " <b>-</b> " (the
+        normal separator between manpage references and summary
+        text) while in keyword search mode. The utility can be
+        hooked in a <small>CGI</small> script/program to convert
+        manpages on the fly. This is the reason for the option. The
+        order that section head mapping is searched is not defined.
+        Therefore, if two or more can match a give manpage section,
+        there is no way to determine which map tag is chosen. If is
+        specified, all xrefs are detected after the heading. In
+        other words, sections after may contain hyperlinked xrefs.
+        Text that is flush to the left margin, but is not actually
+        a section head, can be mistaken for a section head. This
+        mistake is more likely when the option is in affect. This
+        documentation describes version 3.0.1<br>
+        Troff version of this document initially created for
+        version 2.1.0 by C. Jeffery Small by copying, reformatting,
+        rearranging and partially rewriting the contents of the
+        ascii text file</p>
+        <hr>
+      </td>
+    </tr>
+  </table>
+</body>
+</html>

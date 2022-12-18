@@ -1,0 +1,17 @@
+= man pages
+
+link:asciidoctor.html[Asciidoctor,window=_blank]
+
+link:find.html[find,window=_blank]
+
+link:tidy.html[HTML Tidy,window=_blank]
+
+link:nslookup.html[nslookup,window=_blank]
+
+link:pdfimages.html[pdfimages,window=_blank]
+
+link:pdftotext.html[pdftotext,window=_blank]
+
+link:sqlite3.html[sqlite3,window=_blank]
+
+link:yt-dlp.html[yt-dlp,window=_blank]

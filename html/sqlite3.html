@@ -1,0 +1,452 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta name="generator" content=
+  "HTML Tidy for HTML5 for Apple macOS version 5.8.0">
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content=
+  "width=device-width, initial-scale=1.0">
+  <meta name="generator" content="Asciidoctor 2.0.18">
+  <title>sqlite3</title>
+  <link rel="stylesheet" href="./asciidoc_sqlite3.css">
+</head>
+<body class="article toc2 toc-left">
+  <div id="header">
+    <h1>sqlite3</h1>
+    <div id="toc" class="toc2">
+      <div id="toctitle">
+        Table of Contents
+      </div>
+      <ul class="sectlevel1">
+        <li>
+          <a href="#_name">NAME</a>
+        </li>
+        <li>
+          <a href="#_synopsis">SYNOPSIS</a>
+        </li>
+        <li>
+          <a href="#_summary">SUMMARY</a>
+        </li>
+        <li>
+          <a href="#_description">DESCRIPTION</a>
+          <ul class="sectlevel2">
+            <li>
+              <a href="#_sqlite_meta_commands">SQLITE
+              META-COMMANDS</a>
+            </li>
+          </ul>
+        </li>
+        <li>
+          <a href="#_options">OPTIONS</a>
+        </li>
+        <li>
+          <a href="#_init_file">INIT FILE</a>
+        </li>
+        <li>
+          <a href="#_see_also">SEE ALSO</a>
+        </li>
+        <li>
+          <a href="#_author">AUTHOR</a>
+        </li>
+      </ul>
+    </div>
+  </div>
+  <div id="content">
+    <div class="sect1">
+      <h2 id="_name">NAME</h2>
+      <div class="sectionbody">
+        <div class="paragraph">
+          <p><strong>sqlite3</strong> - A command line interface
+          for SQLite version 3</p>
+        </div>
+      </div>
+    </div>
+    <div class="sect1">
+      <h2 id="_synopsis">SYNOPSIS</h2>
+      <div class="sectionbody">
+        <div class="paragraph">
+          <p><strong>sqlite3</strong> [<em>options</em>]
+          [<em>databasefile</em>] [<em>SQL</em>]</p>
+        </div>
+      </div>
+    </div>
+    <div class="sect1">
+      <h2 id="_summary">SUMMARY</h2>
+      <div class="sectionbody">
+        <div class="paragraph">
+          <p><strong>sqlite3</strong> is a terminal-based front-end
+          to the SQLite library that can evaluate queries
+          interactively and display the results in multiple
+          formats. <strong>sqlite3</strong> can also be used within
+          shell scripts and other applications to provide batch
+          processing features.</p>
+        </div>
+      </div>
+    </div>
+    <div class="sect1">
+      <h2 id="_description">DESCRIPTION</h2>
+      <div class="sectionbody">
+        <div class="paragraph">
+          <p>To start a <strong>sqlite3</strong> interactive
+          session, invoke the <strong>sqlite3</strong> command and
+          optionally provide the name of a database file. If the
+          database file does not exist, it will be created. If the
+          database file does exist, it will be opened.</p>
+        </div>
+        <div class="paragraph">
+          <p>For example, to create a new database file named
+          "mydata.db", create a table named "memos" and insert a
+          couple of records into that table:</p>
+        </div>
+        <div class="exampleblock monospace">
+          <div class="content">
+            <div class="paragraph">
+              <p>$ <strong>sqlite3 mydata.db</strong><br>
+              SQLite version 3.37.0 2021-12-09 01:34:53<br>
+              Enter ".help" for usage hints.<br>
+              sqlite&gt; <strong>CREATE TABLE memos(text, priority
+              INTEGER);</strong><br>
+              sqlite&gt; <strong>INSERT INTO memos VALUES('deliver
+              project description', 10);</strong><br>
+              sqlite&gt; <strong>INSERT INTO memos VALUES('lunch
+              with Christine', 100);</strong><br>
+              sqlite&gt; <strong>SELECT * FROM memos;</strong><br>
+              deliver project description|10<br>
+              lunch with Christine|100<br>
+              sqlite&gt;</p>
+            </div>
+          </div>
+        </div>
+        <div class="paragraph">
+          <p>If no database name is supplied, the ATTACH sql
+          command can be used to attach to existing or create new
+          database files. ATTACH can also be used to attach to
+          multiple databases within the same interactive session.
+          This is useful for migrating data between databases,
+          possibly changing the schema along the way.</p>
+        </div>
+        <div class="paragraph">
+          <p>Optionally, a SQL statement or set of SQL statements
+          can be supplied as a single argument. Multiple statements
+          should be separated by semi-colons.</p>
+        </div>
+        <div class="paragraph">
+          <p>For example:</p>
+        </div>
+        <div class="paragraph">
+          <p>$ <strong>sqlite3 -line mydata.db 'SELECT * FROM memos
+          WHERE priority &gt; 20;'</strong><br>
+          text = lunch with Christine<br>
+          priority = 100<br></p>
+        </div>
+        <div class="sect2">
+          <h3 id="_sqlite_meta_commands">SQLITE META-COMMANDS</h3>
+          <div class="paragraph">
+            <p>The interactive interpreter offers a set of
+            meta-commands that can be used to control the output
+            format, examine the currently attached database files,
+            or perform administrative operations upon the attached
+            databases (such as rebuilding indices). Meta-commands
+            are always prefixed with a dot (.).</p>
+          </div>
+          <div class="paragraph">
+            <p>A list of available meta-commands can be viewed at
+            any time by issuing the '.help' command. For
+            example:</p>
+          </div>
+          <div class="paragraph">
+            <p><code>sqlite&gt; <strong>.help</strong></code></p>
+          </div>
+          <div class="listingblock">
+            <div class="content">
+              <pre>  .auth ON|OFF             Show authorizer callbacks
+  .backup ?DB? FILE        Backup DB (default "main") to FILE
+  .bail on|off             Stop after hitting an error.  Default OFF
+  .binary on|off           Turn binary output on or off.  Default OFF
+  .cd DIRECTORY            Change the working directory to DIRECTORY
+  .changes on|off          Show number of rows changed by SQL
+  .check GLOB              Fail if output since .testcase does not match
+  .clone NEWDB             Clone data into NEWDB from the existing database
+  .connection [close] [#]  Open or close an auxiliary database connection
+  .databases               List names and files of attached databases
+  .dbconfig ?op? ?val?     List or change sqlite3_db_config() options
+  .dbinfo ?DB?             Show status information about the database
+  .dump ?OBJECTS?          Render database content as SQL
+  .echo on|off             Turn command echo on or off
+  .eqp on|off|full|...     Enable or disable automatic EXPLAIN QUERY PLAN
+  .excel                   Display the output of next command in spreadsheet
+  .exit ?CODE?             Exit this program with return-code CODE
+  .expert                  EXPERIMENTAL. Suggest indexes for queries
+  .explain ?on|off|auto?   Change the EXPLAIN formatting mode.  Default: auto
+  .filectrl CMD ...        Run various sqlite3_file_control() operations
+  .fullschema ?--indent?   Show schema and the content of sqlite_stat tables
+  .headers on|off          Turn display of headers on or off
+  .help ?-all? ?PATTERN?   Show help text for PATTERN
+  .import FILE TABLE       Import data from FILE into TABLE
+  .imposter INDEX TABLE    Create imposter table TABLE on index INDEX
+  .indexes ?TABLE?         Show names of indexes
+  .limit ?LIMIT? ?VAL?     Display or change the value of an SQLITE_LIMIT
+  .lint OPTIONS            Report potential schema issues.
+  .log FILE|off            Turn logging on or off.  FILE can be stderr/stdout
+  .mode MODE ?TABLE?       Set output mode
+  .nonce STRING            Disable safe mode for one command if the nonce matches
+  .nullvalue STRING        Use STRING in place of NULL values
+  .once ?OPTIONS? ?FILE?   Output for the next SQL command only to FILE
+  .oom ?--repeat M? ?N?    Simulate an OOM error on the N-th allocation
+  .open ?OPTIONS? ?FILE?   Close existing database and reopen FILE
+  .output ?FILE?           Send output to FILE or stdout if FILE is omitted
+  .parameter CMD ...       Manage SQL parameter bindings
+  .print STRING...         Print literal STRING
+  .progress N              Invoke progress handler after every N opcodes
+  .prompt MAIN CONTINUE    Replace the standard prompts
+  .quit                    Exit this program
+  .read FILE               Read input from FILE
+  .recover                 Recover as much data as possible from corrupt db.
+  .restore ?DB? FILE       Restore content of DB (default "main") from FILE
+  .save FILE               Write in-memory database into FILE
+  .scanstats on|off        Turn sqlite3_stmt_scanstatus() metrics on or off
+  .schema ?PATTERN?        Show the CREATE statements matching PATTERN
+  .selftest ?OPTIONS?      Run tests defined in the SELFTEST table
+  .separator COL ?ROW?     Change the column and row separators
+  .session ?NAME? CMD ...  Create or control sessions
+  .sha3sum ...             Compute a SHA3 hash of database content
+  .shell CMD ARGS...       Run CMD ARGS... in a system shell
+  .show                    Show the current values for various settings
+  .stats ?ARG?             Show stats or turn stats on or off
+  .system CMD ARGS...      Run CMD ARGS... in a system shell
+  .tables ?TABLE?          List names of tables matching LIKE pattern TABLE
+  .testcase NAME           Begin redirecting output to 'testcase-out.txt'
+  .testctrl CMD ...        Run various sqlite3_test_control() operations
+  .timeout MS              Try opening locked tables for MS milliseconds
+  .timer on|off            Turn SQL timer on or off
+  .trace ?OPTIONS?         Output each SQL statement as it is run
+  .unmodule NAME ...       Unregister virtual table modules
+  .vfsinfo ?AUX?           Information about the top-level VFS
+  .vfslist                 List all available VFSes
+  .vfsname ?AUX?           Print the name of the VFS stack
+  .width NUM1 NUM2 ...     Set minimum column widths for columnar output
+sqlite&gt;</pre>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="sect1">
+      <h2 id="_options">OPTIONS</h2>
+      <div class="sectionbody">
+        <div class="paragraph">
+          <p><strong>sqlite3</strong> has the following
+          options:</p>
+        </div>
+        <div class="dlist">
+          <dl>
+            <dt class="hdlist1"><strong>-append</strong></dt>
+            <dd>
+              <p>Append the database to the end of the file.</p>
+            </dd>
+            <dt class="hdlist1"><strong>-ascii</strong></dt>
+            <dd>
+              <p>Set output mode to 'ascii'.</p>
+            </dd>
+            <dt class="hdlist1"><strong>-bail</strong></dt>
+            <dd>
+              <p>Stop after hitting an error.</p>
+            </dd>
+            <dt class="hdlist1"><strong>-batch</strong></dt>
+            <dd>
+              <p>Force batch I/O.</p>
+            </dd>
+            <dt class="hdlist1"><strong>-column</strong></dt>
+            <dd>
+              <p>Query results will be displayed in a table like
+              form, using whitespace characters to separate the
+              columns and align the output.</p>
+            </dd>
+            <dt class="hdlist1"><strong>-cmd</strong>
+            <em>command</em></dt>
+            <dd>
+              <p>run <em>command</em> before reading stdin</p>
+            </dd>
+            <dt class="hdlist1"><strong>-csv</strong></dt>
+            <dd>
+              <p>Set output mode to CSV (comma separated
+              values).</p>
+            </dd>
+            <dt class="hdlist1"><strong>-deserialize</strong></dt>
+            <dd>
+              <p>Open the database using sqlite3_deserialize()</p>
+            </dd>
+            <dt class="hdlist1"><strong>-echo</strong></dt>
+            <dd>
+              <p>Print commands before execution.</p>
+            </dd>
+            <dt class="hdlist1"><strong>-init</strong>
+            <em>file</em></dt>
+            <dd>
+              <p>Read and execute commands from <em>file</em> ,
+              which can contain a mix of SQL statements and
+              meta-commands.</p>
+            </dd>
+            <dt class="hdlist1"><strong>-[no]header</strong></dt>
+            <dd>
+              <p>Turn headers on or off.</p>
+            </dd>
+            <dt class="hdlist1"><strong>-help</strong></dt>
+            <dd>
+              <p>Show help on options and exit.</p>
+            </dd>
+            <dt class="hdlist1"><strong>-html</strong></dt>
+            <dd>
+              <p>Query results will be output as simple HTML
+              tables.</p>
+            </dd>
+            <dt class="hdlist1"><strong>-interactive</strong></dt>
+            <dd>
+              <p>Force interactive I/O.</p>
+            </dd>
+            <dt class="hdlist1"><strong>-line</strong></dt>
+            <dd>
+              <p>Query results will be displayed with one value per
+              line, rows separated by a blank line. Designed to be
+              easily parsed by scripts or other programs</p>
+            </dd>
+            <dt class="hdlist1"><strong>-list</strong></dt>
+            <dd>
+              <p>Query results will be displayed with the separator
+              (|, by default) character between each field value.
+              The default.</p>
+            </dd>
+            <dt class="hdlist1"><strong>-lookaside</strong>
+            <em>size n</em></dt>
+            <dd>
+              <p>Use <em>n</em> entries of <em>size</em> bytes for
+              lookaside memory</p>
+            </dd>
+            <dt class="hdlist1"><strong>-maxsize N</strong></dt>
+            <dd>
+              <p>Limits size of a -deserialize database to
+              <em>N</em> bytes</p>
+            </dd>
+            <dt class="hdlist1"><strong>-mmap</strong>
+            <em>N</em></dt>
+            <dd>
+              <p>Set default mmap size to <em>N</em> .</p>
+            </dd>
+            <dt class="hdlist1"><strong>-memtrace</strong></dt>
+            <dd>
+              <p>Trace all memory allocations.</p>
+            </dd>
+            <dt class="hdlist1"><strong>-newline</strong>
+            <em>sep</em></dt>
+            <dd>
+              <p>Set output row separator. Default is '.</p>
+            </dd>
+            <dt class="hdlist1"><strong>-nofollow</strong></dt>
+            <dd>
+              <p>Refuse to open symbolic links to database
+              files.</p>
+            </dd>
+            <dt class="hdlist1"><strong>-nullvalue</strong>
+            <em>string</em></dt>
+            <dd>
+              <p>Set string used to represent NULL values. Default
+              is '' (empty string).</p>
+            </dd>
+            <dt class="hdlist1"><strong>-quote</strong></dt>
+            <dd>
+              <p>Set output mode to quote.</p>
+            </dd>
+            <dt class="hdlist1"><strong>-readonly</strong></dt>
+            <dd>
+              <p>Open the database read-only.</p>
+            </dd>
+            <dt class="hdlist1"><strong>-separator</strong>
+            <em>separator</em></dt>
+            <dd>
+              <p>Set output field separator. Default is '|'.</p>
+            </dd>
+            <dt class="hdlist1"><strong>-stats</strong></dt>
+            <dd>
+              <p>Print memory stats before each finalize.</p>
+            </dd>
+            <dt class="hdlist1"><strong>-version</strong></dt>
+            <dd>
+              <p>Show SQLite version.</p>
+            </dd>
+            <dt class="hdlist1"><strong>-vfs</strong>
+            <em>name</em></dt>
+            <dd>
+              <p>Use <em>name</em> as the default VFS.</p>
+            </dd>
+          </dl>
+        </div>
+      </div>
+    </div>
+    <div class="sect1">
+      <h2 id="_init_file">INIT FILE</h2>
+      <div class="sectionbody">
+        <div class="paragraph">
+          <p><strong>sqlite3</strong> reads an initialization file
+          to set the configuration of the interactive environment.
+          Throughout initialization, any previously specified
+          setting can be overridden. The sequence of initialization
+          is as follows:</p>
+        </div>
+        <div class="paragraph">
+          <p>o The default configuration is established as
+          follows:</p>
+        </div>
+        <div class="literalblock">
+          <div class="content">
+            <pre>mode            = LIST
+separator       = "|"
+main prompt     = "sqlite&gt; "
+continue prompt = "   ...&gt; "
+|cc .</pre>
+          </div>
+        </div>
+        <div class="paragraph">
+          <p>o If the file <strong>~/.sqliterc</strong> exists, it
+          is processed first. It should generally only contain
+          meta-commands.</p>
+        </div>
+        <div class="paragraph">
+          <p>o If the -init option is present, the specified file
+          is processed.</p>
+        </div>
+        <div class="paragraph">
+          <p>o All other command line options are processed.</p>
+        </div>
+      </div>
+    </div>
+    <div class="sect1">
+      <h2 id="_see_also">SEE ALSO</h2>
+      <div class="sectionbody">
+        <div class="paragraph">
+          <p><a href="http://www.sqlite.org/cli.html" class=
+          "bare">http://www.sqlite.org/cli.html</a><br>
+          The sqlite3-doc package.</p>
+        </div>
+      </div>
+    </div>
+    <div class="sect1">
+      <h2 id="_author">AUTHOR</h2>
+      <div class="sectionbody">
+        <div class="paragraph">
+          <p>This manual page was originally written by Andreas
+          Rottmann &lt;<a href=
+          "mailto:rotty@debian.org">rotty@debian.org</a>&gt;, for
+          the Debian GNU/Linux system (but may be used by others).
+          It was subsequently revised by Bill Bumgarner
+          &lt;<a href="mailto:bbum@mac.com">bbum@mac.com</a>&gt;,
+          Laszlo Boszormenyi &lt;<a href=
+          "mailto:gcs@debian.hu">gcs@debian.hu</a>&gt;, and Scott
+          Perry &lt;<a href=
+          "mailto:sqlite@numist.net">sqlite@numist.net</a>&gt;.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</body>
+</html>
