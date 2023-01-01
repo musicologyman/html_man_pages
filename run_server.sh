@@ -1,3 +1,3 @@
 #!/bin/bash
 #
-python3 -m http.server 54322
+python3 -m http.server --bind 127.0.0.1 54322

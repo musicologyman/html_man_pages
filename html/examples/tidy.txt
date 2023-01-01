@@ -1,0 +1,106 @@
+tidy --clean yes --drop-proprietary-attributes yes --logical-emphasis yes \
+  --merge-divs yes --merge-spans yes -im -w 1024 ginger_tea.html
+
+tidy --show-body-only yes --clean yes --merge-divs yes --merge-spans yes \
+  --drop-proprietary-attributes yes -o ~/temp/barenboim-1991-tidied.html \
+  ~/temp/barenboim-diabelli-1991.html
+
+tidy -asxml --show-body-only yes --clean yes --merge-divs yes \
+  --merge-spans yes --drop-proprietary-attributes yes  \
+  -o ~/temp/barenboim-1991-tidied.html ~/temp/barenboim-diabelli-1991.html
+
+tidy -asxml -i -m -xml slide1.xml
+
+tidy -config config.txt -o syllabus-copy-tidied.html syllabus-copy.html
+
+tidy -config tidy.config -output add_subtitles_2.html add_subtitles.html
+
+tidy -i "MPlayer Reference.html"
+
+tidy -i --clean yes --drop-proprietary-attributes yes --logical-emphasis yes \
+  --merge-divs yes --merge-spans yes -m wget.2.html
+
+tidy -i --clean yes --drop-proprietary-attributes yes --logical-emphasis yes \
+  --merge-divs yes --merge-spans yes -o wget.html wget
+
+tidy -i --show-body-only yes --clean yes --merge-divs yes --merge-spans yes \
+  --drop-proprietary-attributes yes -o ~/temp/barenboim-1991-tidied.html \
+  ~/temp/barenboim-diabelli-1991.html
+
+tidy -i --show-body-only yes --clean yes --merge-divs yes --merge-spans yes \
+  -o barenboim-diabelli.html barenboim-tidied.html
+
+tidy -i -asxml -o presentation_tidied.xml presentation.xml
+
+tidy -i -asxml presentation_tidied.xml presentation.xml
+
+tidy -i -b -c --show-body-only yes --markup yes --doctype html5 \
+  --output-html yes --error-file MPlayer_errs.txt --indent-spaces 2 \
+  --tidy-mark no --wrap-attributes no --write-back yes week_1_review.html
+
+tidy -i -m --input-xml true slide4.xml
+
+tidy -i -m osborne_best_eroica_recordings.html
+
+tidy -indent find.html
+
+tidy -m -i course_outline.html
+
+tidy -m course_outline.html
+
+tidy -o MPlayer.html -i -b -c --markup yes --doctype html5 --output-html yes \
+  --error-file MPlayer_errs.txt --indent-spaces 2 --tidy-mark no \
+  --wrap-attributes no MPlayer\ Reference.html
+
+tidy -o MPlayer.html -i -b -c --markup yes --doctype html5 --output-html yes \
+  --error-file MPlayer_errs.txt --indent-spaces 2 --tidy-mark no \
+  --wrap-attributes yes MPlayer\ Reference.html
+
+tidy -o syllabus-tidied.html --output-html yes --clean yes --indent yes \
+  syllabus.html
+
+tidy -o syllabus-tidied.html --output-html yes --clean yes syllabus.html
+
+tidy -o syllabus.html --output-html yes --clean yes --indent yes \
+  --drop-proprietary-attributes yes --drop-empty-elements yes \
+  --logical-emphasis yes --doc-type html5 --show-body-only yes \
+  --preserve-entities syllabus-tidied.html
+
+tidy -o syllabus.html --output-html yes --clean yes --indent yes \
+  --drop-proprietary-attributes yes --drop-empty-elements yes \
+  --logical-emphasis yes --doc-type html5 --show-body-only yes \
+  --preserve-entities yes syllabus-tidied.html
+
+tidy -o syllabus.html --output-html yes --clean yes --indent yes \
+  --drop-proprietary-attributes yes syllabus-tidied.html
+
+tidy -output add_subtitles.html --output-html yes --clean yes \
+  --drop-empty-elements yes --drop-empty-paras yes \
+  --drop-proprietary-attributes yes --logical-emphasis yes \
+  --merge-divs auto --merge-spans auto --word-2000 yes --replace-color yes \
+  --indent yes --indent-spaces 4 --tidy-mark no --wrap 80 
+  "How to Add Subtitles to a Video File Using FFmpeg - Bannerbear.mht"
+
+tidy -output add_subtitles.html --output-html yes --clean yes \
+  --drop-empty-elements yes --drop-empty-paras yes \
+  --drop-proprietary-attributes yes --logical-emphasis yes --merge-divs auto \
+  --merge-spans auto --word-2000 yes --replace-color yes --indent yes \
+  --indent-spaces 4 --tidy-mark no --wrap 80 --error-file tidy_errors.txt \
+  "How to Add Subtitles to a Video File Using FFmpeg - Bannerbear.html"
+
+tidy -output add_subtitles.html --output-html yes --clean yes \
+  --drop-empty-elements yes --drop-empty-paras yes \
+  --drop-proprietary-attributes yes --logical-emphasis yes --merge-divs auto \
+  --merge-spans auto --word-2000 yes --replace-color yes --indent yes \
+  --indent-spaces 4 --tidy-mark no --wrap 80 --error-file tidy_errors.txt \
+  "How to Add Subtitles to a Video File Using FFmpeg - Bannerbear.mht"
+
+tidy -output add_subtitles.html --output-html yes --clean yes \
+  --drop-empty-elements yes --drop-empty-paras yes \
+  --drop-proprietary-attributes yes --logical-emphasis yes --merge-divs auto \
+  --merge-spans auto --word-2000 yes --replace-color yes --indent yes \
+  --indent-spaces 4 --tidy-mark no --wrap 80 --error-file tidy_errors.txt \
+  --new-blocklevel-tags lottie-player \
+  "How to Add Subtitles to a Video File Using FFmpeg - Bannerbear.html"
+
+tidy -xml -i --output-xml yes -o slide1.xml ppt/slides/slide1.xml

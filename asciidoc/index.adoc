@@ -7,6 +7,9 @@ link:/html/asciidoctor.html[Asciidoctor,window=_blank]
 link:/html/find.html[find,window=_blank]
 
 link:/html/tidy.html[HTML Tidy,window=_blank]
+pass:[<div style='text-indent:0.25in;margin-top:-1em;margin-bottom:1em;'>]
+link:/html/examples/tidy.txt[(examples),window=_blank]
+pass:[</div>]
 
 link:/html/nslookup.html[nslookup,window=_blank]
 
